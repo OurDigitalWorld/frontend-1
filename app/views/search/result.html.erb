@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <p>
+      <% if @documents_collection.present? %>
+        <p> Collection count: <%= @documents_collection.count %> </p>
+        <ul>
+          <% @documents_collection.documents.each do |document| %>
+            <li>
+            <h4> <a href="<%= document.url %>"><%= document.title %></a> </h4>
+            <p> 
+              <b><em>Source: </em></b> <%= document.source %>: <%= document.url %> <br> 
+              <b><em>Description: </em></b> <%= document.description %> <br>
+              <b><em>Document Type / Format: </em></b> <%= document.type %> / <%= document.format %> <br>
+              <b><em>Publisher / Creator: </em></b> <%= document.publisher %> / <%= document.creator %> <br>
+              <b><em>Date: </em></b> <%= document.original_record.date %>    
+            </p>
+              
+            </li>
+          <% end %>
+        </ul>
+
+      <% else %>
+        <p>No results on <%= params[:search] %>.</p>
+      <% end %>
+      </p>
+    </div>
+  </div>
+</div>
+
