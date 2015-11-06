@@ -33,21 +33,17 @@ h6, .h6 {
   }
 }
 
-/*
- * Blog name and description
- */
-
-.blog-header {
+.result-header {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.blog-title {
-  margin-top: 30px;
+.result-title {
+  margin-top: 20px;
   margin-bottom: 0;
-  font-size: 60px;
+  font-size: 20px;
   font-weight: normal;
 }
-.blog-description {
+.result-description {
   font-size: 20px;
   color: #999;
 }
@@ -56,8 +52,7 @@ h6, .h6 {
 /*
  * Main column and sidebar layout
  */
-
-.blog-main {
+.result-main {
   font-size: 18px;
   line-height: 1.5;
 }
@@ -80,30 +75,23 @@ h6, .h6 {
 
 
 /* Pagination */
-.pager {
+.pagination {
   margin-bottom: 60px;
   text-align: left;
 }
-.pager > li > a {
-  width: 140px;
-  padding: 10px 20px;
+.pagination > li > a {
   text-align: center;
-  border-radius: 30px;
 }
 
 
-/*
- * Blog posts
- */
-
-.blog-post {
+.result {
   margin-bottom: 60px;
 }
-.blog-post-title {
+.result-title {
   margin-bottom: 5px;
   font-size: 40px;
 }
-.blog-post-meta {
+.result-meta {
   margin-bottom: 20px;
   color: #999;
 }
@@ -112,14 +100,13 @@ h6, .h6 {
 /*
  * Footer
  */
-
-.blog-footer {
+.result-footer {
   padding: 40px 0;
   color: #999;
   text-align: center;
   background-color: #f9f9f9;
   border-top: 1px solid #e5e5e5;
 }
-.blog-footer p:last-child {
+.result-footer p:last-child {
   margin-bottom: 0;
 }

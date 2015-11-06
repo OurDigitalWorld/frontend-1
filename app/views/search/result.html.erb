@@ -1,149 +1,84 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <p>
-      <% if @documents_collection.present? %>
-        <p> Collection count: <%= @documents_collection.count %> </p>
-        <ul>
-          <% @documents_collection.documents.each do |document| %>
-            <li>
-            <h4> <a href="<%= document.url %>"><%= document.title %></a> </h4>
-            <p> 
-              <b><em>Source: </em></b> <%= document.source %>: <%= document.url %> <br> 
-              <b><em>Description: </em></b> <%= document.description %> <br>
-              <b><em>Document Type / Format: </em></b> <%= document.type %> / <%= document.format %> <br>
-              <b><em>Publisher / Creator: </em></b> <%= document.publisher %> / <%= document.creator %> <br>
-              <b><em>Date: </em></b> <%= document.original_record.date %>    
-            </p>
-              
-            </li>
-          <% end %>
-        </ul>
-
-          <% else %>
-            <p>No results on <%= params[:search] %>.</p>
-          <% end %>
-      </p>
-    </div>
-  </div>
-</div>
 
 <div class="container">
-  <div class="blog-header">
+  <div class="result-header">
     <h3> OurDigitalWorld</h3>
     <p class="lead blog-description">Search result for <%= params[:search] %></p>
   </div>
 
   <div class="row">
-
     <div class="col-sm-8 blog-main">
+        <% if @documents_collection.present? %> 
+        <div class="result">
+            <% @documents_collection.documents.each do |document| %>
+            <h4 class="result-title"><a href="<%= document.url %>"><%= document.title %></a></h4>
+            <p class="result-meta"><%= document.source %>: <%= document.url %></p>
+            <ul>
+                <li> <%= document.description %></li>
+                <li> <%= document.type %> / <%= document.format %> </li>
+                <li> <%= document.publisher %> / <%= document.creator %> </li>
+                <li> <%= document.original_record.date %> </li>
+            </ul>
+            <% end %>
+        <% else %>
+            <p> No results on <%= params[:search] %>. </p>
+        <% end %>
+    </div>
 
-      <div class="blog-post">
-        <h2 class="blog-post-title">Sample blog post</h2>
-        <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
+    <nav>
+        <ul id="pagination" class="pagination-sm"> </ul>
+        <script type="text/javascript">
+             $('#pagination').twbsPagination({
+                 totalPages: <%= @documents_collection.count / 10 %>,
+                 visiblePages: 10,
+                 onPageClick: function(event, page) {
+                    $.ajax({
+                        url: "/search",
+                        data: {"search": "<%= params[:search].to_s %>",
+                               "page": page.toString() 
+                              },
+                        dataType: "json", 
+                        success: function(result) {
+                        }
+                    });
+                 }
+             });
+        </script>
+            <% if false then %>
+            <% for i in 1..(@documents_collection.count / 10) %>
+                <li> <a href="#"><%= i %></a> </li>
+            <% end %>
+            <% end %>
+    </nav>
+    
+  </div>
 
-        <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p>
-        <hr>
-        <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-        <blockquote>
-          <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-        </blockquote>
-        <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-        <h2>Heading</h2>
-        <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-        <h3>Sub-heading</h3>
-        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-        <pre><code>Example code block</code></pre>
-        <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-        <h3>Sub-heading</h3>
-        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <ul>
-          <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-          <li>Donec id elit non mi porta gravida at eget metus.</li>
-          <li>Nulla vitae elit libero, a pharetra augue.</li>
-        </ul>
-        <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-        <ol>
-          <li>Vestibulum id ligula porta felis euismod semper.</li>
-          <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-          <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-        </ol>
-        <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-      </div><!-- /.blog-post -->
-
-      <div class="blog-post">
-        <h2 class="blog-post-title">Another blog post</h2>
-        <p class="blog-post-meta">December 23, 2013 by <a href="#">Jacob</a></p>
-
-        <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-        <blockquote>
-          <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-        </blockquote>
-        <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-        <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-      </div><!-- /.blog-post -->
-
-      <div class="blog-post">
-        <h2 class="blog-post-title">New feature</h2>
-        <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
-
-        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <ul>
-          <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-          <li>Donec id elit non mi porta gravida at eget metus.</li>
-          <li>Nulla vitae elit libero, a pharetra augue.</li>
-        </ul>
-        <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-        <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-      </div><!-- /.blog-post -->
-
-      <nav>
-        <ul class="pager">
-          <li><a href="#">Previous</a></li>
-          <li><a href="#">Next</a></li>
-        </ul>
-      </nav>
-
-    </div><!-- /.blog-main -->
-
-    <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+    <div class="col-sm-3 col-sm-offset-1 result-sidebar">
       <div class="sidebar-module sidebar-module-inset">
-        <h4>About</h4>
-        <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+        <h4>Refine Search</h4>
+        <p> <em>Anything specific you're looking for?</em> Refine your search here and get the results you want. </p>
       </div>
       <div class="sidebar-module">
-        <h4>Archives</h4>
+        <h4>By Resource Type</h4>
         <ol class="list-unstyled">
-          <li><a href="#">March 2014</a></li>
-          <li><a href="#">February 2014</a></li>
-          <li><a href="#">January 2014</a></li>
-          <li><a href="#">December 2013</a></li>
-          <li><a href="#">November 2013</a></li>
-          <li><a href="#">October 2013</a></li>
-          <li><a href="#">September 2013</a></li>
-          <li><a href="#">August 2013</a></li>
-          <li><a href="#">July 2013</a></li>
-          <li><a href="#">June 2013</a></li>
-          <li><a href="#">May 2013</a></li>
-          <li><a href="#">April 2013</a></li>
+            <% typeList = [] %>
+            <% @documents_collection.documents.each do |document| %>
+                <% if !typeList.include? document.type then %>
+                    <li><a href="#"><%= document.type %></a></li>
+                    <% typeList.push(document.type) %>
+                <% end %>
+            <% end %>
         </ol>
       </div>
       <div class="sidebar-module">
-        <h4>Elsewhere</h4>
-        <ol class="list-unstyled">
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Facebook</a></li>
-        </ol>
+        <h4>By Date</h4>
       </div>
-    </div><!-- /.blog-sidebar -->
+    </div>
 
-  </div><!-- /.row -->
+  </div>
 
-</div><!-- /.container -->
+</div>
 
-<footer class="blog-footer">
-  <p>Blog template built for <a href="http://getbootstrap.com">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+<footer class="result-footer">
   <p>
     <a href="#">Back to top</a>
   </p>
