@@ -1,8 +1,8 @@
 
 <div class="container">
   <div class="result-header">
-    <h3> OurDigitalWorld</h3>
-    <p class="lead blog-description">Search result for <%= params[:search] %></p>
+    <h3> <a href="/">OurDigitalWorld</a> </h3>
+    <p class="lead blog-description">Search results for "<%= params[:search] %>"</p>
   </div>
 
   <div class="row">
@@ -30,24 +30,9 @@
              $('#pagination').twbsPagination({
                  totalPages: <%= @documents_collection.count / 10 %>,
                  visiblePages: 10,
-                 onPageClick: function(event, page) {
-                    $.ajax({
-                        url: "/search",
-                        data: {"search": "<%= params[:search].to_s %>",
-                               "page": page.toString() 
-                              },
-                        dataType: "json", 
-                        success: function(result) {
-                        }
-                    });
-                 }
+                 href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&type=<%= params[:type] %>'
              });
         </script>
-            <% if false then %>
-            <% for i in 1..(@documents_collection.count / 10) %>
-                <li> <a href="#"><%= i %></a> </li>
-            <% end %>
-            <% end %>
     </nav>
     
   </div>
@@ -63,7 +48,7 @@
             <% typeList = [] %>
             <% @documents_collection.documents.each do |document| %>
                 <% if !typeList.include? document.type then %>
-                    <li><a href="#"><%= document.type %></a></li>
+                    <li><a href="search?search=<%= params[:search] %>&page_size=<%= params[:page_size] %>&type=<%= document.type %>"><%= document.type %></a></li>
                     <% typeList.push(document.type) %>
                 <% end %>
             <% end %>
