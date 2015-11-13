@@ -31,7 +31,7 @@
             $('#pagination').twbsPagination({
                 totalPages: <%= @documents_collection.count / @documents_collection.documents.length %>,
                 visiblePages: 10,
-                href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&type=<%= params[:type] %>'
+                href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&sourceResource.type=<%= params[:type] %>'
             });
         </script>
     </nav>
