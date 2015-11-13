@@ -1,27 +1,8 @@
-// Place all the styles related to the dpla controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-a:hover {
-   text-decoration: none;
-}
-
-img {
-  display: block;
-  margin: 0 auto;
-  margin-top: 100px;
-}
-
-.center {
-  display: block;
-  margin: 0 auto;
-  margin-top: 10px;
-  text-align: center;
-}
-
-ul {
-  list-style-type: none;
-}
+/*
+ *= require bootstrap.min
+ *= require_self
+ *= require_tree .
+ */
 
 body {
     width: 100%;

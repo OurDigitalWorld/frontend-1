@@ -6,17 +6,17 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-8 blog-main">
-        <% if @documents_collection.present? %> 
+    <div class="col-sm-8">
+        <% if @documents_collection.documents.length > 0 %> 
         <div class="result">
             <% @documents_collection.documents.each do |document| %>
-            <h4 class="result-title"><a href="<%= document.url %>"><%= document.title %></a></h4>
-            <p class="result-meta"><%= document.source %>: <%= document.url %></p>
+            <h4 class="result-title"><a href="<%= document.url %>"><%= formatResult(document.title) %></a></h4>
+            <p class="result-meta"><%= formatResult(document.source) %>: <%= document.url %></p>
             <ul>
-                <li> <%= document.description %></li>
-                <li> <%= document.type %> / <%= document.format %> </li>
-                <li> <%= document.publisher %> / <%= document.creator %> </li>
-                <li> <%= document.original_record.date %> </li>
+                <li> <b>Description: </b><%= formatResult(document.description) %></li>
+                <li> <b>Type / Format: </b><%= formatResult(document.type) %> / <%= formatResult(document.format) %> </li>
+                <li> <b>Publisher / Creator: </b><%= formatResult(document.publisher) %> / <%= formatResult(document.creator) %> </li>
+                <li> <b>Date: </b><%= formatResult(document.original_record.date) %> </li>
             </ul>
             <% end %>
         <% else %>
@@ -24,17 +24,19 @@
         <% end %>
     </div>
 
+    <% if @documents_collection.documents.length > 0 %>
     <nav>
         <ul id="pagination" class="pagination-sm"> </ul>
         <script type="text/javascript">
-             $('#pagination').twbsPagination({
-                 totalPages: <%= @documents_collection.count / 10 %>,
-                 visiblePages: 10,
-                 href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&type=<%= params[:type] %>'
-             });
+            $('#pagination').twbsPagination({
+                totalPages: <%= @documents_collection.count / @documents_collection.documents.length %>,
+                visiblePages: 10,
+                href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&type=<%= params[:type] %>'
+            });
         </script>
     </nav>
-    
+    <% else %>
+    <% end %>
   </div>
 
     <div class="col-sm-3 col-sm-offset-1 result-sidebar">
@@ -46,16 +48,44 @@
         <h4>By Resource Type</h4>
         <ol class="list-unstyled">
             <% typeList = [] %>
-            <% @documents_collection.documents.each do |document| %>
-                <% if !typeList.include? document.type then %>
-                    <li><a href="search?search=<%= params[:search] %>&page_size=<%= params[:page_size] %>&type=<%= document.type %>"><%= document.type %></a></li>
-                    <% typeList.push(document.type) %>
+            <% @global_collection.documents.each do |document| %>
+                <% if !typeList.include? formatResult(document.type) then %>
+                    <li><a href="search?search=<%= params[:search] %>&page_size=<%= params[:page_size] %>&sourceResource.type=<%= document.type %>"><%= document.type %></a></li>
+                    <% typeList.push(formatResult(document.type)) %>
                 <% end %>
             <% end %>
         </ol>
       </div>
       <div class="sidebar-module">
-        <h4>By Date</h4>
+          <h4>By Date</h4>
+          <p>From: <input type="text" id="from" class="datepicker"> </p>
+          <p>To: <input type="text" id="to" class="datepicker"> </p>
+          <a href="#" id="dateBtn" class="btn btn-primary"> Find Resources by Date </a>
+          <script type="text/javascript">
+              $(function() {
+                  $(".datepicker").datepicker();
+              });
+              $(function() {
+                  $("#dateBtn").click(function() {
+                      var from = $('#from')
+                      var to = $('#to')
+                      $("#dateBtn").attr("href", "search?search=<%= params[:search] %>&sourceResource.temporal.begin=" + formatDate(from) 
+                          + "&sourceResource.temporal.end=" + formatDate(to));
+                  })
+              })
+          </script>
+      </div>
+      <div class="sidebar-module">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Resources Per Page <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+              <li><a href="search?search=<%= params[:search] %>&page_size=10&sourceResource.type=<%= params[:type] %>">10</a></li>
+              <li><a href="search?search=<%= params[:search] %>&page_size=20&sourceResource.type=<%= params[:type] %>">20</a></li>
+              <li><a href="search?search=<%= params[:search] %>&page_size=50&sourceResource.type=<%= params[:type] %>">50</a></li>
+          </ul>
+        </div> 
       </div>
     </div>
 

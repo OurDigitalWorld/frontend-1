@@ -10,22 +10,21 @@ body {
   color: #555;
 }
 
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5,
-h6, .h6 {
+.sidebar-module > p {
+    margin-bottom: 10px;
+}
+
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6, {
   margin-top: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   color: #333;
 }
-
-
-/*
- * Override Bootstrap's default container.
- */
 
 @media (min-width: 1200px) {
   .container {
@@ -34,13 +33,21 @@ h6, .h6 {
 }
 
 .result-header {
+  margin-bottom: -30px;
+}
+.result-meta {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #999;
+}
+.result-header {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 .result-title {
   margin-top: 20px;
-  margin-bottom: 0;
-  font-size: 20px;
+  margin-bottom: 5px;
+  font-size: 25px;
   font-weight: normal;
 }
 .result-description {
@@ -49,18 +56,10 @@ h6, .h6 {
 }
 
 
-/*
- * Main column and sidebar layout
- */
-.result-main {
-  font-size: 18px;
-  line-height: 1.5;
-}
-
 /* Sidebar modules for boxing content */
 .sidebar-module {
   padding: 15px;
-  margin: 0 -15px 15px;
+  margin: 0 0px 15px;
 }
 .sidebar-module-inset {
   padding: 15px;
@@ -74,6 +73,28 @@ h6, .h6 {
 }
 
 
+.dropdown-toggle {
+    background-color: #177A55;
+    border-color: #177A55;
+}
+.dropdown-toggle:hover {
+    background-color: #1d9b6c;
+    border-color: #1d9b6c;
+}
+
+div.dropdown.active {
+    background-color: #1d9b6c;
+    border-color: #1d9b6c;
+}
+
+div.dropdown.active.open > a, 
+div.dropdown.active.open > ul.dropdown-menu a:hover,
+div.dropdown.open > a, 
+div.dropdown.open > ul.dropdown-menu a:hover {
+    background-color: #1d9b6c;
+    border-color: #1d9b6c;
+}
+
 /* Pagination */
 .pagination {
   margin-bottom: 60px;
@@ -82,20 +103,6 @@ h6, .h6 {
 .pagination > li > a {
   text-align: center;
 }
-
-
-.result {
-  margin-bottom: 60px;
-}
-.result-title {
-  margin-bottom: 5px;
-  font-size: 40px;
-}
-.result-meta {
-  margin-bottom: 20px;
-  color: #999;
-}
-
 
 /*
  * Footer

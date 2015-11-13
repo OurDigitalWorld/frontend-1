@@ -13,7 +13,7 @@
             <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
                 <ul class="nav navbar-nav">
                     <li class="hidden">
-                        <a href="#page-top"></a>
+                        <a href="#"></a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#about">About</a>
@@ -31,7 +31,7 @@
                     <div class="col-md-8 col-md-offset-2">
                         <h2 class="brand-heading">Welcome</h2>
                         <img src="<%= asset_path('odw.gif') %>">
-                        <p class="intro-text">Find books, journals, images and other online resources from the vast DPLA database<br>Search powered by Elastic / Lucene</p> 
+                        <p class="intro-text">Find books, journals, images and other online resources from the vast DPLA database </p> 
                         <%= form_tag("/search", :method => "get") do %>
                         <p>
                           <%= text_field_tag :search, params[:search], size: 40, placeholder: "Search DPLA database" %>

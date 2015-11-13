@@ -13,6 +13,7 @@
 //= require jquery
 //= require bootstrap.min
 //= require jquery_ujs
+//= require bootstrap-datepicker
 //= require jquery.twbsPagination.min
 //= require turbolinks
 //= require_tree .
