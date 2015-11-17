@@ -25,6 +25,20 @@ $('.navbar-collapse ul li a').click(function() {
 });
 
 var formatDate = function(date) {
+    if (date.datepicker('getDate') === null) {
+        return "";
+    }
     var month = date.datepicker('getDate').getMonth() + 1;
     return date.datepicker('getDate').getFullYear() + "-" + month + "-" + date.datepicker('getDate').getDate();
 }
+
+var appendDate = function(date, beforeAfter) {
+    if (date.datepicker('getDate') === null) {
+        return "";
+    }
+    var month = date.datepicker('getDate').getMonth() + 1;
+    return beforeAfter + "%5Bmonth%5D=" + month + 
+           "&" + beforeAfter + "%5Bday%5D=" + date.datepicker('getDate').getDate() + 
+           "&" + beforeAfter + "%5Byear%5D=" + date.datepicker('getDate').getFullYear();  
+}
+

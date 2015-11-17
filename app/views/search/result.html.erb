@@ -2,8 +2,15 @@
 <div class="container">
   <div class="result-header">
     <h3> <a href="/">OurDigitalWorld</a> </h3>
-    <p class="lead blog-description">Search results for "<%= params[:search] %>"</p>
+    <p class="lead result-description">Search results for "<%= params[:search] %>"</p>
   </div>
+
+    <%= form_tag("/search", :method => "get") do %>
+    <p>
+      <%= text_field_tag :search, params[:search], size: 40, placeholder: "Search DPLA database" %>
+      <%= submit_tag "Search" %>
+    </p>
+    <% end %>
 
   <div class="row">
     <div class="col-sm-8">
@@ -16,7 +23,7 @@
                 <li> <b>Description: </b><%= formatResult(document.description) %></li>
                 <li> <b>Type / Format: </b><%= formatResult(document.type) %> / <%= formatResult(document.format) %> </li>
                 <li> <b>Publisher / Creator: </b><%= formatResult(document.publisher) %> / <%= formatResult(document.creator) %> </li>
-                <li> <b>Date: </b><%= formatResult(document.original_record.date) %> </li>
+                <li> <b>Date: </b><%= formatResult(document.date.displayDate) %> </li>
             </ul>
             <% end %>
         <% else %>
@@ -31,7 +38,7 @@
             $('#pagination').twbsPagination({
                 totalPages: <%= @documents_collection.count / @documents_collection.documents.length %>,
                 visiblePages: 10,
-                href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&sourceResource.type=<%= params["sourceResource.type"] %>'
+                href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&sourceResource.type=<%= params["sourceResource.type"] %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>'
             });
         </script>
     </nav>
@@ -50,7 +57,7 @@
             <% typeList = [] %>
             <% @global_collection.documents.each do |document| %>
                 <% if !typeList.include? formatResult(document.type) then %>
-                    <li><a href="search?search=<%= params[:search] %>&page_size=<%= params[:page_size] %>&sourceResource.type=<%= document.type %>"><%= document.type %></a></li>
+                  <li><a href="search?search=<%= params[:search] %>&page_size=<%= params[:page_size] %>&sourceResource.type=<%= document.type %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>"><%= document.type %></a></li>
                     <% typeList.push(formatResult(document.type)) %>
                 <% end %>
             <% end %>
@@ -60,17 +67,23 @@
           <h4>By Date</h4>
           <p>From: <input type="text" id="from" class="datepicker"> </p>
           <p>To: <input type="text" id="to" class="datepicker"> </p>
-          <a href="#" id="dateBtn" class="btn btn-primary"> Find Resources by Date </a>
+          <a id="dateBtn" class="btn btn-primary"> Find Resources by Date </a>
           <script type="text/javascript">
               $(function() {
-                  $(".datepicker").datepicker();
+                  $(".datepicker").datepicker().on('changeDate', function() {
+                      $(this).datepicker('hide') 
+                  });
               });
               $(function() {
                   $("#dateBtn").click(function() {
                       var from = $('#from')
                       var to = $('#to')
-                      $("#dateBtn").attr("href", "search?search=<%= params[:search] %>&sourceResource.temporal.begin=" + formatDate(from) 
-                          + "&sourceResource.temporal.end=" + formatDate(to));
+
+                      $("#dateBtn").attr("href", 
+                        "search?search=<%= params[:search] %>&" + 
+                        "sourceResource.date.after=" + formatDate(from) + "&sourceResource.date.before=" + formatDate(to)) + 
+                        "&sourceResource.type=<%= params["sourceResource.type"] %>" + 
+                        "&page_size=<%= params[:page_size] %>" + "&page=<%= params[:page] %>";
                   })
               })
           </script>
@@ -81,9 +94,9 @@
             Resources Per Page <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-              <li><a href="search?search=<%= params[:search] %>&page_size=10&sourceResource.type=<%= params[:type] %>">10</a></li>
-              <li><a href="search?search=<%= params[:search] %>&page_size=20&sourceResource.type=<%= params[:type] %>">20</a></li>
-              <li><a href="search?search=<%= params[:search] %>&page_size=50&sourceResource.type=<%= params[:type] %>">50</a></li>
+            <li><a href="search?search=<%= params[:search] %>&page_size=10&sourceResource.type=<%= params["sourceResource.type"] %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>">10</a></li>
+            <li><a href="search?search=<%= params[:search] %>&page_size=20&sourceResource.type=<%= params["sourceResource.type"] %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>">20</a></li>
+            <li><a href="search?search=<%= params[:search] %>&page_size=50&sourceResource.type=<%= params["sourceResource.type"] %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>">50</a></li>
           </ul>
         </div> 
       </div>
