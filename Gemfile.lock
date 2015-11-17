@@ -1,5 +1,5 @@
 PATH
-  remote: lib/DPLibrary
+  remote: lib/DPLAWrapper
   specs:
     DPLibrary (0.0.5)
       faraday (~> 0.8.7)

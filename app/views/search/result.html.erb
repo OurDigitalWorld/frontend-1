@@ -80,10 +80,10 @@
                       var to = $('#to')
 
                       $("#dateBtn").attr("href", 
-                        "search?search=<%= params[:search] %>&" + 
-                        "sourceResource.date.after=" + formatDate(from) + "&sourceResource.date.before=" + formatDate(to)) + 
+                        "search?search=<%= params[:search] %>" +
                         "&sourceResource.type=<%= params["sourceResource.type"] %>" + 
-                        "&page_size=<%= params[:page_size] %>" + "&page=<%= params[:page] %>";
+                        "&page_size=<%= params[:page_size] %>" + "&page=<%= params[:page] %>" + 
+                        "&sourceResource.date.after=" + formatDate(from) + "&sourceResource.date.before=" + formatDate(to)); 
                   })
               })
           </script>
