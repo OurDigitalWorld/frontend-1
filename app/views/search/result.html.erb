@@ -84,7 +84,7 @@
                         "search?search=<%= params[:search] %>" +
                         "&sourceResource.type=<%= params["sourceResource.type"] %>" + 
                         "&page_size=<%= params[:page_size] %>" + "&page=<%= params[:page] %>" + 
-                        "&sourceResource.date.after=" + formatDate(from) + "&sourceResource.date.before=" + formatDate(to)); 
+                        "&sourceResource.date.after=" + formatDate(from, "1000-01-01") + "&sourceResource.date.before=" + formatDate(to, "2020-12-31")); 
                   })
               })
           </script>
