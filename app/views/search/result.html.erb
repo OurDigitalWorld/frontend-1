@@ -14,33 +14,34 @@
 
   <div class="row">
     <div class="col-sm-8">
-        <% if @documents_collection.documents.length > 0 %> 
-        <div class="result">
-            <% @documents_collection.documents.each do |document| %>
-            <h4 class="result-title"><a href="<%= document.url %>"><%= formatResult(document.title) %></a></h4>
+      <% if @documents_collection.documents.length > 0 %> 
+        <% @documents_collection.documents.each do |document| %>
+          <img class="thumbnail" src="<%= document.object %>" alt="No thumbnail available" onError="this.onerror=null;this.src='<%= asset_path('text_source.gif') %>';">
+          <div class="result">
+            <h4 class="result-title"> <a href="<%= document.url %>"><%= formatResult(document.title) %></a> </h4>
             <p class="result-meta"><%= formatResult(document.source) %>: <%= document.url %></p>
             <ul>
-                <li> <b>Description: </b><%= formatResult(document.description) %></li>
-                <li> <b>Type / Format: </b><%= formatResult(document.type) %> / <%= formatResult(document.format) %> </li>
-                <li> <b>Publisher / Creator: </b><%= formatResult(document.publisher) %> / <%= formatResult(document.creator) %> </li>
-                <li> <b>Date: </b><%= formatResult(document.date.displayDate) %> </li>
+              <li> <b>Description: </b><%= formatResult(document.description) %></li>
+              <li> <b>Type / Format: </b><%= formatResult(document.type) %> / <%= formatResult(document.format) %></li>
+              <li> <b>Publisher / Creator: </b><%= formatResult(document.publisher) %> / <%= formatResult(document.creator) %></li>
+              <li> <b>Date: </b><%= formatResult(document.date.displayDate) %></li>
             </ul>
-            <% end %>
-        <% else %>
-            <p> No results on <%= params[:search] %>. </p>
+          </div>
         <% end %>
-    </div>
+        <% else %>
+          <p>No results on <%= params[:search] %>.</p>
+        <% end %>
 
     <% if @documents_collection.documents.length > 0 %>
     <nav>
-        <ul id="pagination" class="pagination-sm"> </ul>
-        <script type="text/javascript">
-            $('#pagination').twbsPagination({
-                totalPages: <%= @documents_collection.count / @documents_collection.documents.length %>,
-                visiblePages: 10,
-                href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&sourceResource.type=<%= params["sourceResource.type"] %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>'
-            });
-        </script>
+      <ul id="pagination" class="pagination-sm"> </ul>
+      <script type="text/javascript">
+        $('#pagination').twbsPagination({
+            totalPages: <%= @documents_collection.count / @documents_collection.documents.length %>,
+            visiblePages: 10,
+            href: 'search?search=<%= params[:search] %>&page={{number}}&page_size=<%= params[:page_size] %>&sourceResource.type=<%= params["sourceResource.type"] %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>'
+        });
+      </script>
     </nav>
     <% else %>
     <% end %>
@@ -56,10 +57,10 @@
         <ol class="list-unstyled">
             <% typeList = [] %>
             <% @global_collection.documents.each do |document| %>
-                <% if !typeList.include? formatResult(document.type) then %>
-                  <li><a href="search?search=<%= params[:search] %>&page_size=<%= params[:page_size] %>&sourceResource.type=<%= document.type %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>"><%= document.type %></a></li>
-                    <% typeList.push(formatResult(document.type)) %>
-                <% end %>
+              <% if !typeList.include? formatResult(document.type) then %>
+                <li><a href="search?search=<%= params[:search] %>&page_size=<%= params[:page_size] %>&sourceResource.type=<%= document.type %>&sourceResource.date.after=<%= params.fetch("sourceResource.date.after", "1000-01-01") %>&sourceResource.date.before=<%= params.fetch("sourceResource.date.before", "2020-12-31") %>"><%= document.type %></a></li>
+                <% typeList.push(formatResult(document.type)) %>
+              <% end %>
             <% end %>
         </ol>
       </div>

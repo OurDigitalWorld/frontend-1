@@ -32,6 +32,24 @@ h6, {
   }
 }
 
+img {
+  height: auto;
+  width: auto;
+  max-height: 150px;
+  max-width: 150px;
+}
+
+.thumbnail {
+  margin-top: 20px;
+  position: absolute;
+  left: 0px;
+}
+
+.result {
+  position: relative;
+  margin-left: 200px;
+}
+
 .result-header {
   margin-bottom: -30px;
 }
